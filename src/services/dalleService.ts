@@ -2,11 +2,11 @@ import { useCallback } from 'react';
 
 export const useDalleService = () => {
   const generateImage = useCallback(async (title: string): Promise<string | null> => {
-    // Use a project-scoped API key (sk-proj)
-    const dalleApiKey = import.meta.env.VITE_OPENAI_PROJECT_API_KEY;
+    // Make sure you have a user-scoped API key here, NOT a project key
+    const dalleApiKey = import.meta.env.VITE_OPENAI_USER_API_KEY;
 
     if (!dalleApiKey) {
-      throw new Error('OpenAI project API key is missing in environment variables.');
+      throw new Error('OpenAI API key is missing in environment variables.');
     }
 
     const prompt = `Create a professional, high-quality image for a tech blog post titled "${title}". The image should be visually appealing, modern, and suitable for a professional technology blog.`;
@@ -34,7 +34,7 @@ export const useDalleService = () => {
           status: response.status,
           error: errorData,
         });
-        throw new Error(errorData.error?.message || 'Image generation failed. Ensure the project API key has DALL-E access.');
+        throw new Error(errorData.error?.message || 'Image generation failed.');
       }
 
       const data = await response.json();
